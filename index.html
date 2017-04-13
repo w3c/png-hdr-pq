@@ -1,65 +1,198 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>PNG HDR PQ</title>
-  <script src='//www.w3.org/Tools/respec/respec-w3c-common' async class=
-  'remove'>
-  </script>
+
+  <title>Using the ITU BT.2100 PQ EOTF with the PNG Format</title>
+  <script src='https://www.w3.org/Tools/respec/respec-w3c-common' async="" class='remove'>
+</script>
   <script class='remove'>
-  var respecConfig = {
+var respecConfig = {
     shortName: "png-hdr-pq",
     specStatus: "ED",
     noRecTrack: true,
     edDraftURI: "https://w3c.github.io/png-hdr-pq/",
     editors: [{
-      name: "Pierre",
-      w3cid: "00000"
-    }],
+                name: "Pierre Lemieux",
+                w3cid:  "57073",
+                mailto: "pal@sandflow.com"
+              }],
     wg: "Timed Text Working Group",
     wgURI: "https://www.w3.org/AudioVideo/TT/",
     wgPublicList: "public-tt",
     subjectPrefix: "[png-hdr-pq]",
     license: 'w3c-software-doc',
-    format: "markdown",
-    otherLinks: [{
-      key: 'Repository',
-      data: [{
-        value: 'We are on Github.',
-        href: 'https://github.com/w3c/png-hdr-pg/'
-      }, {
-        value: 'File a bug.',
-        href: 'https://github.com/w3c/png-hdr-pg/issues'
-      }, {
-        value: 'Commit history.',
-        href: 'https://github.com/w3c/png-hdr-pg/commits/master/index.html'
-      }]
-    },{
-      key: 'Mailing list',
-      data: [{
-        value: 'public-tt@w3.org',
-        href: 'https://lists.w3.org/Archives/Public/public-tt/'
-      }]
-    }],
-    wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/34314/status"
+    otherLinks: [
+      {
+        key: 'Repository',
+        data: [
+          {
+            href: 'https://github.com/w3c/png-hdr-pg/'
+          }
+        ]
+      },
+      {
+        key: 'Issues',
+        data: [
+          {
+            href: 'https://github.com/w3c/png-hdr-pg/issues'
+          }
+        ]
+      }
+    ],
+    wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/34314/status",
+    localBiblio:  {
+      "BT2100-1" : "<a href='https://www.itu.int/rec/R-REC-BT.2100'>Recommendation ITU-R BT.2100-1</a>, Image parameter values for high dynamic range television for use in production and international programme exchange"
+    }
   };
   </script>
 </head>
+
 <body>
   <section id="abstract">
-    <p>@@.</p>
+    <p>This specification defines a mechanism for storing images that use the Reference PQ EOTF specified in [[!BT2100-1]] in the Portable
+    Network Graphics (PNG) format (specified in [[!PNG]]), without modification to existing chunks or the introduction of new
+    chunks.</p>
   </section>
+
   <section id="sotd">
-    <p>@@</p>
-    </ul>
+    <p>This specification is intended to be published as a Working Group Note.</p>
   </section>
+
   <section id="introduction" class='informative'>
     <h2>Introduction</h2>
-    <p>@@</p>
+
+    <p>The <code>gAMA</code> chunk of the Portable Network Graphics (PNG) format (specified in [[!PNG]]) parameterizes the transfer
+    function of the image as a power law. As such, it cannot model the Reference PQ EOTF specified in [[!BT2100-1]], which is
+    commonly used for HDR images.</p>
+
+    <p>This specification uses the existing <code>iCCP</code> chunk to unambiguously signal the color system of an image that uses
+    the Reference PQ EOTF specified in [[!BT2100-1]]</p>
   </section>
-  <section class="appendix">
-    <h2>Acknowledgments</h2>
-    <p>@@</p>
+
+  <section id="file">
+    <h2>PQ HDR PNG File</h2>
+
+    <p>The file shall conform to [[!PNG]].</p>
+
+    <p>The image type shall be <code>truecolor</code>.</p>
+
+    <p>The image shall conform to one of the Pixel Encoding Systems specified in the table below.</p>
+
+    <p>The file shall contain an <code>iCCP</code> chunk whose profile name is set according to the table below.</p>
+
+    <p>The embedded ICC profile of the <code>iCCP</code> chunk, the <code>cHRM</code> chunk and the <code>gAMA</code> chunk should
+    be set according to the table below.</p>
+
+    <p>The embedded ICC profile shall be compressed using Method 0, as specified in [[!PNG]].</p>
+
+    <table id="hdr-systems" style="font-size:small;">
+      <caption>
+        HDR Systems
+      </caption>
+
+      <thead>
+        <tr>
+          <th>Pixel Encoding System</th>
+
+          <th><code>iCCP</code> Chunk Profile Name</th>
+
+          <th><code>iCCP</code> Chunk Embedded ICC Profile</th>
+
+          <th><code>gAMA</code> Chunk</th>
+
+          <th><code>cHRM</code> Chunk</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>[[!BT2100-1]], using the Reference PQ EOTF and full-range quantization</td>
+
+          <td><code>ITUR_2100_PQ_FULL</code></td>
+
+          <td>
+            <a href="icc/ITUR_2100_PQ_FULL.icc">TTML2_COLOR_ITUR2100PQFull.icc</a>
+          </td>
+
+          <td>15000</td>
+
+          <td>
+            <table>
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+
+                  <th>Value</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>White point x</td>
+
+                  <td>31270</td>
+                </tr>
+
+                <tr>
+                  <td>White point y</td>
+
+                  <td>32900</td>
+                </tr>
+
+                <tr>
+                  <td>Red x</td>
+
+                  <td>70800</td>
+                </tr>
+
+                <tr>
+                  <td>Red y</td>
+
+                  <td>29200</td>
+                </tr>
+
+                <tr>
+                  <td>Green x</td>
+
+                  <td>17000</td>
+                </tr>
+
+                <tr>
+                  <td>Green y</td>
+
+                  <td>79700</td>
+                </tr>
+
+                <tr>
+                  <td>Blue x</td>
+
+                  <td>13100</td>
+                </tr>
+
+                <tr>
+                  <td>Blue y</td>
+
+                  <td>4600</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="note">The <code>gAMA</code> and embedded ICC profile are provided solely for compatibility with processors that do
+    not conform to this specification.</p>
+
+    <p class="note">This specification does not constrain bit depth.</p>
   </section>
+  
+  <section class='appendix' class="informative">
+    <h2>Privacy and Security Considerations</h2>
+    
+    See Section 13.4 at [[!PNG]].
+    </section>
 </body>
 </html>
