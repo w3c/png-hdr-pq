@@ -51,9 +51,9 @@ var respecConfig = {
 
 <body>
   <section id="abstract">
-    <p>This specification defines a mechanism for storing images that use the Reference PQ EOTF specified in [[!BT2100-1]] in the Portable
-    Network Graphics (PNG) format (specified in [[!PNG]]), without modification to existing chunks or the introduction of new
-    chunks.</p>
+    <p>This specification defines a mechanism for storing images that use the Reference PQ EOTF specified in [[!BT2100-1]] in the
+    Portable Network Graphics (PNG) format (specified in [[!PNG]]), without modification to existing chunks or the introduction of
+    new chunks.</p>
   </section>
 
   <section id="sotd">
@@ -68,28 +68,38 @@ var respecConfig = {
     commonly used for HDR images.</p>
 
     <p>This specification uses the existing <code>iCCP</code> chunk to unambiguously signal the color system of an image that uses
-    the Reference PQ EOTF specified in [[!BT2100-1]]</p>
+    the Reference PQ EOTF specified in [[!BT2100-1]]. It also allows graceful processing by decoders that do not conform to this
+    specification by recommending fallback values for the <code>gAMA</code> chunk, <code>cHRM</code> chunk, and embedded ICC
+    profile.</p>
   </section>
 
   <section id="file">
     <h2>PQ HDR PNG File</h2>
 
-    <p>The file shall conform to [[!PNG]].</p>
+    <p>The file SHALL conform to [[!PNG]].</p>
 
-    <p>The image type shall be <code>truecolor</code>.</p>
+    <p>The image type SHALL be <code>truecolor</code>.</p>
 
-    <p>The image shall conform to one of the Pixel Encoding Systems specified in the table below.</p>
+    <p>The image SHALL conform to one of the Pixel Encoding Systems specified in the table below.</p>
 
-    <p>The file shall contain an <code>iCCP</code> chunk whose profile name is set according to the table below.</p>
+    <p>The file SHALL contain an <code>iCCP</code> chunk, constrained as follows:</p>
 
-    <p>The embedded ICC profile of the <code>iCCP</code> chunk, the <code>cHRM</code> chunk and the <code>gAMA</code> chunk should
-    be set according to the table below.</p>
+    <ul>
+      <li>the profile name of the <code>iCCP</code> chunk SHALL be set as specified by the table below according to the Pixel
+      Encoding System of the image; and</li>
 
-    <p>The embedded ICC profile shall be compressed using Method 0, as specified in [[!PNG]].</p>
+      <li>the embedded ICC profile of the <code>iCCP</code> chunk SHOULD contained one of the ICC profiles specified by the table
+      below according to the Pixel Encoding System of the image; and</li>
+
+      <li>if present, he embedded ICC profile SHALL be compressed using Method 0, as specified in [[!PNG]].</li>
+    </ul>
+
+    <p>The <code>cHRM</code> chunk and the <code>gAMA</code> chunk of the file SHOULD be set as specified by the table below
+    according to the Pixel Encoding System of the image.</p>
 
     <table id="hdr-systems" style="font-size:small;">
       <caption>
-        HDR Systems
+        Pixel Encoding Systems
       </caption>
 
       <thead>
@@ -98,7 +108,7 @@ var respecConfig = {
 
           <th><code>iCCP</code> Chunk Profile Name</th>
 
-          <th><code>iCCP</code> Chunk Embedded ICC Profile</th>
+          <th><code>iCCP</code> Chunk Embedded ICC Profile(s)</th>
 
           <th><code>gAMA</code> Chunk</th>
 
@@ -113,7 +123,7 @@ var respecConfig = {
           <td><code>ITUR_2100_PQ_FULL</code></td>
 
           <td>
-             <a href="icc/ITUR_2100_PQ_FULL.icc">ITUR_2100_PQ_FULL.icc</a>
+            <a href="icc/ITUR_2100_PQ_FULL.icc">ITUR_2100_PQ_FULL.icc</a>
           </td>
 
           <td>15000</td>
@@ -183,16 +193,17 @@ var respecConfig = {
       </tbody>
     </table>
 
-    <p class="note">The <code>gAMA</code> and embedded ICC profile are provided solely for compatibility with processors that do
-    not conform to this specification.</p>
+    <p class="note">The <code>gAMA</code> chunk and embedded ICC profile specified in the table above are not accurate, and their
+    processing is not required to reproduce the image as intended by the author. They are provided as fallback for implementations
+    that do not recognize the semantics associated with a <code>iCCP</code> Chunk Profile Names defined by this specification.
+    Future versions of this specification might include additional ICC profiles, e.g. to reflect improvements in ICC profile
+    capabilities.</p>
 
     <p class="note">This specification does not constrain bit depth.</p>
   </section>
-  
-  <section class='appendix' class="informative">
-    <h2>Privacy and Security Considerations</h2>
-    
-    See Section 13.4 at [[!PNG]].
-    </section>
+
+  <section class="informative">
+    <h2>Privacy and Security Considerations</h2>See Section 13.4 at [[!PNG]].
+  </section>
 </body>
 </html>
