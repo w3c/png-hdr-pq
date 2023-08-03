@@ -51,22 +51,24 @@ var respecConfig = {
   <!-- <div> <input id=annoying-warning type=checkbox title="hide note">  -->
     <div class=annoying-warning> 
       <p><strong>Note:</strong> 
-      This specification met an urgent need at the time of publication,
-      but had significant drawbacks
-      particularly in fallback behavior, and should not be used for new content.</p>
+        This specification is deprecated and should not be used for new applications.</p>
       <p>
-      New features in <a href="https://www.w3.org/TR/png-3/">PNG, Third Edition</a>
-      enable identification of BT.2100 PQ content 
-      using Coding Independent Code Points,
-      which is more compatible with established industry practice.
-      The <a href="https://www.w3.org/TR/png-3/#cICP-chunk">`cICP` chunk</a>
-      with values 9 16 0 1 serves the same purpose, with only 4 bytes of overhead.
-      </p>
-      <p>
-      In addition, the <a href="https://www.w3.org/TR/png-3/#mDCv-chunk">Mastering 
-      Display Color Volume</a> and
-      <a href="https://www.w3.org/TR/png-3/#cLLi-chunk">Content Light Level Information</a>
-      can be provided, for HRD10 compatibility.
+        Applications are instead encouraged to consider using the
+        <a href="https://www.w3.org/TR/png-3/">Third Edition of the PNG specification</a>
+        which adds explicit support for HDR imagery, including images encoded according to 
+        Rec. ITU-R BT.2100. 
+        
+        Signaling of HDR images is achieved using the 
+        <a href="https://www.w3.org/TR/png-3/#cICP-chunk">`cICP` chunk</a>
+        which uses the common Coding Independent Code Points specified in Rec. ITU-T H.273. 
+        
+        For example, images that use the BT.2100 PQ color encoding are signaled with 
+        the cICP chunk components values <code>9 16 0 1</code>.
+
+        In addition, the <a href="https://www.w3.org/TR/png-3/#mDCv-chunk">Mastering 
+        Display Color Volume</a> and
+        <a href="https://www.w3.org/TR/png-3/#cLLi-chunk">Content Light Level 
+        Information</a> can be provided.
       </p>
     </div>
 
