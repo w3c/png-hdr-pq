@@ -10,7 +10,7 @@
   <script class='remove'>
 var respecConfig = {
     shortName: "png-hdr-pq",
-    specStatus: "ED",
+    specStatus: "NOTE",
     noRecTrack: true,
     edDraftURI: "https://w3c.github.io/png-hdr-pq/",
     editors: [{
@@ -48,6 +48,30 @@ var respecConfig = {
 </head>
 
 <body>
+  <!-- <div> <input id=annoying-warning type=checkbox title="hide note">  -->
+    <div class=annoying-warning> 
+      <p><strong>Note:</strong> 
+        This specification is deprecated and should not be used for new applications.</p>
+      <p>
+        Applications are instead encouraged to consider using the
+        <a href="https://www.w3.org/TR/png-3/">Third Edition of the PNG specification</a>
+        which adds explicit support for HDR imagery, including images encoded according to 
+        Rec. ITU-R BT.2100. 
+        
+        Signaling of HDR images is achieved using the 
+        <a href="https://www.w3.org/TR/png-3/#cICP-chunk">`cICP` chunk</a>
+        which uses the common Coding Independent Code Points specified in Rec. ITU-T H.273. 
+        
+        For example, images that use the BT.2100 PQ color encoding are signaled with 
+        the cICP chunk components values <code>9 16 0 1</code>.
+
+        In addition, the <a href="https://www.w3.org/TR/png-3/#mDCv-chunk">Mastering 
+        Display Color Volume</a> and
+        <a href="https://www.w3.org/TR/png-3/#cLLi-chunk">Content Light Level 
+        Information</a> can be provided.
+      </p>
+    </div>
+
   <section id="abstract">
     <p>This specification defines a mechanism for storing images that use the Reference PQ EOTF specified in [[!BT2100-1]] in the
     Portable Network Graphics (PNG) format (specified in [[!PNG]]), without modification to existing chunks or the introduction of
@@ -57,6 +81,7 @@ var respecConfig = {
   <section id="sotd">
     <p>This specification is intended to be published as a Working Group Note.</p>
   </section>
+
 
   <section id="introduction" class='informative'>
     <h2>Introduction</h2>
