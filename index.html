@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 
   <title>Using the ITU BT.2100 PQ EOTF with the PNG Format</title>
-  <script src='https://www.w3.org/Tools/respec/respec-w3c' async="" class='remove'>
+  <script src='https://www.w3.org/Tools/respec/respec-w3c' defer class='remove'>
 </script>
   <script class='remove'>
 var respecConfig = {
@@ -39,29 +39,33 @@ var respecConfig = {
           }
         ]
       }
-    ],
-    localBiblio:  {
-      "BT2100-1" : "<a href='https://www.itu.int/rec/R-REC-BT.2100'>Recommendation ITU-R BT.2100-1</a>, Image parameter values for high dynamic range television for use in production and international programme exchange"
-    }
+    ]
   };
   </script>
 </head>
 
 <body>
-  <!-- <div> <input id=annoying-warning type=checkbox title="hide note">  -->
-    <div class=annoying-warning> 
-      <p><strong>Note:</strong> 
+
+  <section id="abstract">
+    <p>This specification defines a mechanism for storing images that use the Reference PQ EOTF specified in [[ITU-R-BT.2100]] in the
+    Portable Network Graphics (PNG) format (specified in [[PNG]]), without modification to existing chunks or the introduction of
+    new chunks.</p>
+  </section>
+
+  <section id="sotd">
+    <div class=annoying-warning>
+      <p><strong>Note:</strong>
         This specification is deprecated and should not be used for new applications.</p>
       <p>
         Applications are instead encouraged to consider using the
         <a href="https://www.w3.org/TR/png-3/">Third Edition of the PNG specification</a>
         which adds explicit support for HDR imagery, including images encoded according to 
-        Rec. ITU-R BT.2100. 
-        
+        Rec. ITU-R BT.2100.
+
         Signaling of HDR images is achieved using the 
         <a href="https://www.w3.org/TR/png-3/#cICP-chunk">`cICP` chunk</a>
         which uses the common Coding Independent Code Points specified in Rec. ITU-T H.273. 
-        
+
         For example, images that use the BT.2100 PQ color encoding are signaled with 
         the cICP chunk components values <code>9 16 0 1</code>.
 
@@ -71,27 +75,20 @@ var respecConfig = {
         Information</a> can be provided.
       </p>
     </div>
-
-  <section id="abstract">
-    <p>This specification defines a mechanism for storing images that use the Reference PQ EOTF specified in [[!BT2100-1]] in the
-    Portable Network Graphics (PNG) format (specified in [[!PNG]]), without modification to existing chunks or the introduction of
-    new chunks.</p>
   </section>
 
-  <section id="sotd">
-    <p>This specification is intended to be published as a Working Group Note.</p>
+  <section id="conformance">
   </section>
-
 
   <section id="introduction" class='informative'>
     <h2>Introduction</h2>
 
-    <p>The <code>gAMA</code> chunk of the Portable Network Graphics (PNG) format (specified in [[!PNG]]) parameterizes the transfer
-    function of the image as a power law. As such, it cannot model the Reference PQ EOTF specified in [[!BT2100-1]], which is
+    <p>The <code>gAMA</code> chunk of the Portable Network Graphics (PNG) format (specified in [[PNG]]) parameterizes the transfer
+    function of the image as a power law. As such, it cannot model the Reference PQ EOTF specified in [[ITU-R-BT.2100]], which is
     commonly used for HDR images.</p>
 
     <p>This specification uses the existing <code>iCCP</code> chunk to unambiguously signal the color system of an image that uses
-    the Reference PQ EOTF specified in [[!BT2100-1]]. It also allows graceful processing by decoders that do not conform to this
+    the Reference PQ EOTF specified in [[ITU-R-BT.2100]]. It also allows graceful processing by decoders that do not conform to this
     specification by recommending fallback values for the <code>gAMA</code> chunk, <code>cHRM</code> chunk, and embedded ICC
     profile.</p>
   </section>
@@ -141,7 +138,7 @@ var respecConfig = {
 
       <tbody>
         <tr>
-          <td>[[!BT2100-1]], using the Reference PQ EOTF and full-range quantization</td>
+          <td>[[!ITU-R-BT.2100]], using the Reference PQ EOTF and full-range quantization</td>
 
           <td><code>ITUR_2100_PQ_FULL</code></td>
 
@@ -226,7 +223,7 @@ var respecConfig = {
   </section>
 
   <section class="informative">
-    <h2>Privacy and Security Considerations</h2>See Section 13.4 at [[!PNG]].
+    <h2>Privacy and Security Considerations</h2>See Section 13.4 at [[PNG]].
   </section>
 </body>
 </html>
